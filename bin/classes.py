@@ -64,7 +64,7 @@ class tablero:
                     self.posiciones[nombre] = coords
 
                     for posicion_f, posicion_c in coords:
-                        self.tablero[posicion_f][posicion_c] = nombre
+                        self.tablero[posicion_f][posicion_c] = CARACTER_BARCO
                         self.ocupadas.add((posicion_f, posicion_c))
 
                     break
