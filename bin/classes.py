@@ -1,4 +1,10 @@
 
+# Se importan las variables de variables.py y se cargan numpy y random
+
+import numpy as np
+import random
+from variables import *
+
 # Definir clase tablero:
 
 class tablero:
@@ -64,7 +70,7 @@ class tablero:
                     self.posiciones[nombre] = coords
 
                     for posicion_f, posicion_c in coords:
-                        self.tablero[posicion_f][posicion_c] = nombre
+                        self.tablero[posicion_f][posicion_c] = CARACTER_BARCO
                         self.ocupadas.add((posicion_f, posicion_c))
 
                     break
