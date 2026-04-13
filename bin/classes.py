@@ -1,4 +1,10 @@
 
+# Se importan las variables de variables.py y se cargan numpy y random
+
+import numpy as np
+import random
+from variables import *
+
 # Definir clase tablero:
 
 class tablero:
