@@ -1,62 +1,40 @@
-# Método para que el jugador realice un disparo en el tablero del oponente
+import numpy as np
+import random
+from variables import *
 
-def realizar_disparo(disparo, tablero):
+def realizar_disparo(tablero, disparo=None, aleatorio=False):
     acierto = False
-
-    match tablero.tablero[disparo]:
-        #Si el disparo acierta un barco, se marca con "X" y se indica que ha sido un acierto
-        case "b":
-            tablero.tablero[disparo] = "X"
-            acierto = True
-            print("¡Tocado!")
-        #Si el disparo no acierta ningún barco, se marca con "-" y se indica que ha sido un fallo
-        case " ":
-            tablero.tablero[disparo] = "-"
-            print("Agua.")
-        #Si el disparo ya se ha realizado en esa posición, se indica que ya se ha disparado allí
-        case "X", "-":
-            print("Ya has disparado aquí.")
     
-    # Se muestra el tablero del oponente después de cada disparo y devuelve si ha sido un acierto o no
-    mostrar_tablero_oponente(tablero)
-    return acierto
-
-# Método para que la máquina realice un disparo aleatorio en el tablero del jugador
-
-def realizar_disparo_aleatorio(tablero):
-    acierto = False
-    # La máquina genera coordenadas aleatorias para disparar
-    disparo = (random.randint(0, DIMENSIONES_TABLERO - 1), random.randint(0, DIMENSIONES_TABLERO - 1))
+    # Si es aleatorio, generamos las coordenadas aquí mismo
+    if aleatorio:
+        disparo = (random.randint(0, DIMENSIONES_TABLERO - 1), 
+                   random.randint(0, DIMENSIONES_TABLERO - 1))
 
     match tablero.tablero[disparo]:
-        #Si el disparo acierta un barco, se marca con "X" y se indica que ha sido un acierto
-        case "b":
-            tablero.tablero[disparo] = "X"
+        case "CARACTER_BARCO":
+            tablero.tablero[disparo] = "CARACTER_IMPACTO"
             acierto = True
             print("¡Tocado!")
-        #Si el disparo no acierta ningún barco, se marca con "-" y se indica que ha sido un fallo
-        case " ":
-            tablero.tablero[disparo] = "-"
+        case "CARACTER_AGUA":
+            tablero.tablero[disparo] = "CARACTER_FALLO"
             print("Agua.")
-        #Si el disparo ya se ha realizado en esa posición, se indica que ya se ha disparado allí
-        case "X", "-":
+        case "CARACTER_IMPACTO", "CARACTER_FALLO":
             print("Ya has disparado aquí.")
 
-    mostrar_tablero(tablero)
+    # Si dispara la máquina (aleatorio), mostramos nuestro tablero (oculto=False)
+    # Si dispara el jugador, mostramos el del oponente (oculto=True)
+    mostrar_tablero(tablero, oculto=not aleatorio)
+    
     return acierto
 
-# Se muestra el tablero del jugador con los barcos visibles
-
-def mostrar_tablero(tablero):
+def mostrar_tablero(tablero, oculto=False):
     print(tablero.id_player)
-    print(tablero.tablero)
-    print("******************************************")
-
-# Se muestra el tablero del oponente
-
-def mostrar_tablero_oponente(tablero):
-    # Se muestra el tablero del oponente con los barcos ocultos (reemplazando "b" por " ")
-    tablero_oculto = np.where(tablero.tablero == "b", " ", tablero.tablero)
-    print(tablero.id_player)
-    print(tablero_oculto)
+    
+    if oculto:
+    
+        tablero_mostrar = np.where(tablero.tablero == "CARACTER_BARCO", " ", tablero.tablero)
+    else:
+        tablero_mostrar = tablero.tablero
+        
+    print(tablero_mostrar)
     print("******************************************")
