@@ -1,6 +1,10 @@
-from variables import DIMENSIONES_TABLERO, BARCOS, NOMBRES_JUGADORES, CARACTER_IMPACTO, CARACTER_FALLO
+from variables import DIMENSIONES_TABLERO, BARCOS, NOMBRES_JUGADORES, CARACTER_IMPACTO, CARACTER_FALLO, CARACTER_AGUA, CARACTER_BARCO
 from classes import tablero
-from funciones import realizar_disparo, realizar_disparo_aleatorio, mostrar_tablero, mostrar_tablero_oponente
+from funciones import *
+
+import numpy as np
+import random
+
 
 
 # FUNCIONES AUXILIARES - TODO pasar a funciones.py o meter en los métodos 
@@ -66,7 +70,7 @@ def main():
         if turno_jugador:
             print("\n>>> TURNO DEL JUGADOR <<<")
             mostrar_tablero(tablero_jugador)
-            mostrar_tablero_oponente(tablero_maquina)
+            mostrar_tablero(tablero_maquina, oculto = True)
             # pedir_coordenadas deberia llamarse desde funciones.py 
             disparo = pedir_coordenadas()
 
@@ -75,7 +79,7 @@ def main():
                 print("Ya has disparado en esa casilla. Elige otra.")
                 continue
             # Realiza el disparo
-            tocado = realizar_disparo(disparo, tablero_maquina)
+            tocado = realizar_disparo(tablero_maquina, disparo)
             # comprobar_fin deberia estar en funciones.py
             if comprobar_fin(tablero_maquina):
                 print("\nHas hundido toda la flota enemiga!")
@@ -91,7 +95,7 @@ def main():
         else:
             print("\n>>> TURNO DE LA MAQUINA <<<")
             # TODO Ahora mismo la maquina no sabe que no debe no repetir disparos 
-            tocado = realizar_disparo_aleatorio(tablero_jugador)
+            tocado = realizar_disparo(tablero_jugador, aleatorio = True)
             # comprobar_fin deberia estar en funciones.py
             if comprobar_fin(tablero_jugador):
                 print("\nLa maquina ha hundido toda tu flota...")
