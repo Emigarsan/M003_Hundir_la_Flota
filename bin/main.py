@@ -60,14 +60,12 @@ def main():
     tablero_jugador.colocar_barcos()
     tablero_maquina.colocar_barcos()
 
-    turno_jugador = True
-
-    # Bucle de juego - al jugador le imprime un mensaje y pide el input, lo valida, y repite el el turno mientras realizar_disparo devuelva True
+        # Bucle de juego - al jugador le imprime un mensaje y pide el input, lo valida, y repite el el turno mientras realizar_disparo devuelva True
     #                   la maquina simplemente dispara aleatoriamente mientras sea su turno
     while True:
 
         # ---- TURNO DEL JUGADOR ----
-        if turno_jugador:
+        if TU_TURNO:
             print("\n>>> TURNO DEL JUGADOR <<<")
             mostrar_tablero(tablero_jugador)
             mostrar_tablero(tablero_maquina, oculto = True)
