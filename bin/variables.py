@@ -19,6 +19,8 @@ NOMBRES_JUGADORES = ["Jugador 1", "Maquina"]
 # Bandera de control de turno: True indica turno del jugador, False indica turno de la máquina
 TU_TURNO = True
 
+# Bandera de control de estado del juego: True mientras la partida está activa, False cuando termina
+PARTIDA_ACTIVA = True
 # Bandera de visibilidad: True oculta barcos del oponente, False los muestra (para debug y testeo controlado)
 OCULTO = False
 

@@ -36,7 +36,7 @@ def main() -> None:
     tablero_maquina.colocar_barcos()
 
     # Bucle principal de juego: continúa hasta que algún jugador hunda toda la flota enemiga
-    while True:
+    while var.PARTIDA_ACTIVA:
 
         # ---- TURNO DEL JUGADOR HUMANO ----
         if var.TU_TURNO:
@@ -67,15 +67,15 @@ def main() -> None:
                     if comprobar_fin(tablero_maquina):
                         print("\nHas hundido toda la flota enemiga!")
                         print("VICTORIA DEL JUGADOR!")
-                        break
-                    
+                        var.PARTIDA_ACTIVA = False
+                        # break
                     # Lógica de turno: acierto = repetir; fallo = pasar turno a máquina
-                    if tocado:
+                    elif tocado:
                         print("\nRepites turno.")
+                        pausa = input("\nPresiona Enter para continuar...\n")
                     else:
                         var.TU_TURNO = False
-
-                    pausa = input("\nPresiona Enter para continuar...\n")
+                        pausa = input("\nPresiona Enter para continuar...\n")
 
         # ---- TURNO DE LA MÁQUINA ----
         else:
@@ -99,9 +99,10 @@ def main() -> None:
                     if comprobar_fin(tablero_jugador):
                         print("\nLa máquina ha hundido toda tu flota...")
                         print("¡DERROTA! :(")
-                        break
+                        var.PARTIDA_ACTIVA = False
+                        # break
                         # Lógica de turno: acierto = repetir; fallo = pasar turno al jugador
-                    if tocado:
+                    elif tocado:
                         print("\nLa maquina repite turno.")
                     else:
                         var.TU_TURNO = True
@@ -109,9 +110,8 @@ def main() -> None:
     # Visualización del estado final de ambos tableros
     print("\n--- TABLERO FINAL ---")
     mostrar_tablero(tablero_jugador)
-    time.sleep(3)
     mostrar_tablero(tablero_maquina)
-    time.sleep(3)
+
     print("\nGracias por jugar a Hundir la Flota!")
 
 
