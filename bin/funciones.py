@@ -43,6 +43,9 @@ def realizar_disparo(tablero, disparo:tuple[int, int]=None) -> bool:
         bool: True si el disparo impacta un barco (acierto), False en caso contrario.
     """
     acierto = False
+    fila, columna = disparo
+
+    print(f"\nDisparo en ({fila}, {columna})")
 
     # Evalúa el contenido de la celda y determina el resultado del disparo
     match tablero.tablero[disparo]:
@@ -50,14 +53,14 @@ def realizar_disparo(tablero, disparo:tuple[int, int]=None) -> bool:
             # Impacto exitoso: marca la celda como conquistada
             tablero.tablero[disparo] = var.CARACTER_IMPACTO
             acierto = True
-            print("¡Tocado!")
+            print("Resultado: ¡Tocado!")
         case var.CARACTER_AGUA:
             # Disparo en agua: marca como fallo
             tablero.tablero[disparo] = var.CARACTER_FALLO
-            print("¡Agua!")
+            print("Resultado: Agua.")
         case var.CARACTER_IMPACTO, var.CARACTER_FALLO:
             # Celda ya visitada: no aplica cambio alguno
-            print("Ya has disparado aquí.")
+            print("Resultado: Casilla ya visitada.")
     
     return acierto
 
@@ -71,16 +74,37 @@ def mostrar_tablero(tablero, oculto:bool=False) -> None:
         tablero: Instancia del tablero a visualizar.
         oculto (bool): Si es True, sustituye los barcos no impactados con espacios.
     """
-    print(tablero.id_player)
-    
     # Aplica máscara de privacidad si es necesario (modo oponente)
     if oculto:
         tablero_mostrar = np.where(tablero.tablero == var.CARACTER_BARCO, " ", tablero.tablero)
     else:
         tablero_mostrar = tablero.tablero
-        
-    print(tablero_mostrar)
-    print("\n******************************************")
+
+    dimension = tablero_mostrar.shape[0]
+    ancho_celda = 3
+    separador = "    +" + "+".join(["-" * ancho_celda] * dimension) + "+"
+    cabecera = "     " + "  ".join(f"{col:>2}" for col in range(dimension))
+
+    print("\n" + "=" * 60)
+    print(f"TABLERO: {tablero.id_player}")
+    print("=" * 60)
+    print(cabecera)
+    print(separador)
+
+    for fila in range(dimension):
+        celdas = []
+        for col in range(dimension):
+            valor = tablero_mostrar[fila, col]
+            celdas.append(f" {valor} ")
+        print(f" {fila:>2} |" + "|".join(celdas) + "|")
+        print(separador)
+
+    if oculto:
+        print(f"\nLeyenda: '{var.CARACTER_IMPACTO}'= Impacto  '{var.CARACTER_FALLO}'= Fallo  '{var.CARACTER_AGUA}'= Desconocido")
+    else:
+        print(f"\nLeyenda: '{var.CARACTER_BARCO}'= Barco  '{var.CARACTER_IMPACTO}'= Impacto  '{var.CARACTER_FALLO}'= Fallo  '{var.CARACTER_AGUA}'= Agua")
+
+    print("=" * 60)
 
 # Solicita coordenadas válidas del jugador con validación de entrada
 def pedir_coordenadas() -> tuple[int, int]:

@@ -6,6 +6,9 @@ import numpy as np
 import random
 import time
 
+PAUSA_ENTRE_TABLEROS = 1.2
+PAUSA_RESULTADO = 1.0
+
 # ============================================================
 # HUNDIR LA FLOTA --- BUCLE PRINCIPAL
 # ============================================================
@@ -19,7 +22,7 @@ def main() -> None:
     """
     # Mensaje de bienvenida 
     print("=" * 50)
-    print("\tBIENVENIDO A HUNDIR LA FLOTA")
+    print("      BIENVENIDO A HUNDIR LA FLOTA")
     print("=" * 50)
     print("\nReglas:")
     print(f"- Tablero de {var.DIMENSIONES_TABLERO}x{var.DIMENSIONES_TABLERO}")
@@ -40,12 +43,11 @@ def main() -> None:
 
         # ---- TURNO DEL JUGADOR HUMANO ----
         if var.TU_TURNO:
-            print("\n>>> TURNO DEL JUGADOR <<<\n")
+            print("\n>>> TURNO DEL JUGADOR <<<")
             # Muestra el tablero propio y el del oponente (ocultando barcos si es necesario)
             mostrar_tablero(tablero_jugador)
             mostrar_tablero(tablero_maquina, oculto = var.OCULTO)
-            time.sleep(0.5)
-            
+
             # Solicita al jugador que ingrese coordenadas para el disparo
             disparo = pedir_coordenadas()
             repetida = True
@@ -62,13 +64,13 @@ def main() -> None:
                     # Ejecuta el disparo en el tablero enemigo
                     tocado = realizar_disparo(tablero_maquina, disparo)
                     mostrar_tablero(tablero_maquina, oculto = var.OCULTO)
+
                     
                     # Evalúa si la flota enemiga ha sido completamente hundida
                     if comprobar_fin(tablero_maquina):
-                        print("\nHas hundido toda la flota enemiga!")
-                        print("VICTORIA DEL JUGADOR!")
+                        print("\n¡Has hundido toda la flota enemiga!")
+                        print("¡VICTORIA DEL JUGADOR!")
                         var.PARTIDA_ACTIVA = False
-                        # break
                     # Lógica de turno: acierto = repetir; fallo = pasar turno a máquina
                     elif tocado:
                         print("\nRepites turno.")
@@ -88,25 +90,26 @@ def main() -> None:
             # Valida que la máquina no dispare a una casilla ya impactada
                 if repetida:
                     # En caso de repetición, intenta nuevamente generar coordenadas válidas
-                    print("La máquina intenta disparar a una casilla ya visitada.")
+                    continue
                 else:
                     # Ejecuta el disparo de la máquina contra el tablero del jugador
                     tocado = realizar_disparo(tablero_jugador, disparo_maquina)
                     mostrar_tablero(tablero_jugador)
-                    time.sleep(1)
+                    # Pausa breve para que el jugador pueda ver el resultado del disparo de la máquina
+                    time.sleep(PAUSA_ENTRE_TABLEROS)
                     
                     # Evalúa si la flota del jugador ha sido completamente hundida
                     if comprobar_fin(tablero_jugador):
                         print("\nLa máquina ha hundido toda tu flota...")
                         print("¡DERROTA! :(")
                         var.PARTIDA_ACTIVA = False
-                        # break
                         # Lógica de turno: acierto = repetir; fallo = pasar turno al jugador
                     elif tocado:
                         print("\nLa maquina repite turno.")
                     else:
                         var.TU_TURNO = True
-                time.sleep(1)
+                # Pausa breve antes del siguiente turno para mejorar la experiencia de juego
+                time.sleep(PAUSA_RESULTADO)
     # Visualización del estado final de ambos tableros
     print("\n--- TABLERO FINAL ---")
     mostrar_tablero(tablero_jugador)
