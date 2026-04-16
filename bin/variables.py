@@ -1,32 +1,41 @@
-# Dimensiones del tablero de juego (10x10)
+"""Constantes y configuración global para el juego Hundir la Flota.
+
+Define parámetros del tablero, símbolos de representación, nombres de jugadores
+y variables de estado del juego.
+"""
+
+# Dimensión estándar del tablero de juego: 10 filas x 10 columnas
 DIMENSIONES_TABLERO = 10
 
-# Caracteres para representar diferentes estados en el tablero
-CARACTER_AGUA = " "        # Casilla sin explorar o sin barco
-CARACTER_BARCO = "O"       # Casilla con un barco
-CARACTER_IMPACTO = "X"     # Casilla donde se acertó un barco
-CARACTER_FALLO = "-"       # Casilla donde se falló (agua)
+# Símbolos de representación para distintos estados de las casillas del tablero
+CARACTER_AGUA = " "        # Estado inicial: casilla sin explorar, sin barco
+CARACTER_BARCO = "O"       # Posición de un barco sin impacto
+CARACTER_IMPACTO = "X"     # Impacto exitoso contra un barco
+CARACTER_FALLO = "~"       # Disparo fallido (agua)
 
-# Nombres de los jugadores
+# Identificadores de los dos jugadores del juego
 NOMBRES_JUGADORES = ["Jugador 1", "Maquina"]
 
-# Variable de control para saber de quién es el turno
+# Bandera de control de turno: True indica turno del jugador, False indica turno de la máquina
 TU_TURNO = True
 
-# Diccionario que almacenará información de los barcos
-BARCOS = {}
+# Bandera de control de estado del juego: True mientras la partida está activa, False cuando termina
+PARTIDA_ACTIVA = True
+# Bandera de visibilidad: True oculta barcos del oponente, False los muestra (para debug y testeo controlado)
+OCULTO = True
 
-# Bucle para generar dinámicamente los barcos
-# barco: tamaño del barco (1 a 4 celdas)
-# indice: número secuencial de barcos del mismo tamaño
-for barco in range(1, 5):
-    # Para cada tamaño, se crean (5-tamaño) barcos
-    # Barcos de tamaño 1: 4 barcos
-    # Barcos de tamaño 2: 3 barcos
-    # Barcos de tamaño 3: 2 barcos
-    # Barcos de tamaño 4: 1 barco
-    for indice in range(5 - barco):
-        # Crea un nombre único para cada barco (ej: "barco1_1", "barco2_1")
-        nombre_barco = f"barco{barco}_{indice + 1}"
-        # Asigna el tamaño del barco al diccionario
-        BARCOS[nombre_barco] = barco
+# Diccionario que almacena la configuración de barcos: nombre -> eslora (longitud)
+BARCOS = {}
+BARCO_MAYOR_ESLORA = 4
+# Inicialización dinámica de la flota según configuración estándar.
+# Estructura: 4 barcos de eslora 1, 3 de eslora 2, 2 de eslora 3, 1 de eslora 4
+for eslora in range(1, BARCO_MAYOR_ESLORA + 1):
+    # Cantidad de barcos de esta eslora = (5 - eslora)
+    # Ejemplo: eslora=1 → 4 barcos; eslora=4 → 1 barco
+    cantidad_barcos = (BARCO_MAYOR_ESLORA + 1) - eslora
+    
+    for indice in range(cantidad_barcos):
+        # Genera identificador único: "barco<eslora>_<número_secuencial>"
+        # Ejemplo: "barco1_1", "barco1_2", "barco2_1", etc.
+        nombre_barco = f"barco{eslora}_{indice + 1}"
+        BARCOS[nombre_barco] = eslora
