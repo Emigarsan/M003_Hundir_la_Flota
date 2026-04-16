@@ -12,6 +12,9 @@ NOMBRES_JUGADORES = ["Jugador 1", "Maquina"]
 
 # Variable de control para saber de quién es el turno
 TU_TURNO = True
+# Variable para ocultar o mostrar los barcos del oponente (True = oculto, False = visible) - se puede usar para testeo
+OCULTO = False
+
 
 # Diccionario que almacenará información de los barcos
 BARCOS = {}
