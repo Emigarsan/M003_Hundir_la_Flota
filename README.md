@@ -69,7 +69,7 @@ El proyecto está dividido en varios archivos:
   - Hay un total de 10 barcos: 4 barcos de 1 posición, 3 barcos de 2 posiciones, 2 barcos de 3 posiciones y 1 barco de 4 posiciones de eslora. ¡Tienes que hundirlos todos!
   - En cada ronda, cuando sea tu turno verás el tablero de la máquina arriba y el tuyo abajo, pero solo podrás ver tus barcos, marcados con una "O".
   - En tu turno, se te pedirá introducir un número de fila y un número de columna. **OJO: Las coordenadas tienen que estar siempre abarcadas entre el 0 y el 9 para que estén dentro del tablero**
-  - Si aciertas, tendrás otro turno y en el tablero enemigo aparecerá una "X" donde hayas acertado. Si fallas, pierdes el turno y aparecerá una raya ("-") para indicar la posición de agua.
+  - Si aciertas, tendrás otro turno y en el tablero enemigo aparecerá una "X" donde hayas acertado. Si fallas, pierdes el turno y aparecerá una virgulilla ("~") para indicar la posición de agua.
   - Gana el que antes hunda todos los barcos del contrario.
 
 ⬇️
